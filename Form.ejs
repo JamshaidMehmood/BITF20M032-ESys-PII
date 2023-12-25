@@ -1,0 +1,265 @@
+<!-- Form.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise System Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 900px; /* Increased width */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .row > div {
+      flex: 1;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .create-btn {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .cancel-btn {
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    .links {
+      margin: 20px 0;
+    }
+
+    .links a {
+      margin-right: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+<body>
+ 
+  <form method="post" action="/addStudent">
+    <header>
+      <h1>Student Interest System</h1>
+      <div class="links">
+        <a href="/studentDashboard">Dashboard &nbsp; |&nbsp;</a>
+        <a href="/studentList">Student List  &nbsp; |&nbsp;</a>
+        <% if (authenticated) { %>
+          <a href="/logout">Logout</a>
+      <% } %>
+      </div>
+    </header>
+    <br>
+    <h3>Add Student</h3>
+    <div class="row">
+      <div>
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" required>
+      </div>
+      <div>
+        <label for="rollNumber">Roll Number</label>
+        <input type="text" id="rollNumber" name="rollNumber" required>
+      </div>
+      <div>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+      </div>
+      <div>
+        <label for="city">City</label>
+        <select id="city" name="city" required>
+          <option value="Lahore">Lahore</option>
+          <option value="Karachi">Karachi</option>
+          <option value="Peshawar">Peshawar</option>
+          <option value="Multan">Multan</option>
+          <option value="Bhakar">Bhakar</option>
+          <option value="GI Khan">GI Khan</option>
+        </select>
+      </div>
+      <div>
+        <label for="interest">Interest</label>
+        <select id="interest" name="interest" required>
+          <!-- Options will be dynamically added here using JavaScript -->
+        </select>
+        <input type="text" id="newInterest" name="newInterest" placeholder="Enter new interest">
+      </div>      
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="department">Department</label>
+        <select id="department" name="department" required>
+          <option value="IT">IT</option>
+          <option value="HR">HR</option>
+          <option value="Finance">Finance</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <div>
+        <label for="degree">Degree Title</label>
+        <select id="degree" name="degree" required>
+          <option value="Associate Degree">Associate Degree</option>
+          <option value="Bachelors Degree">Bachelors Degree</option>
+          <option value="M.Phil. Degree">M.Phil. Degree</option>
+          <option value="Post-Graduate Diploma">Post-Graduate Diploma</option>
+          <option value="Doctorate">Doctorate</option>
+          <option value="Post-Doctorate">Post-Doctorate</option>
+          <option value="PHD">PHD</option>
+        </select>
+      </div>
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" required>
+      </div>
+      <div>
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" required>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="create-btn" type="submit">Create</button>
+      <button class="cancel-btn" type="button"  onclick="window.location.href='/studentList'">Cancel</button>
+    </div>
+  </form>
+
+ <!-- javscript to dynamically add the interest in the drop down menue -->
+ <script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    const interestDropdown = document.getElementById('interest');
+    const newInterestInput = document.getElementById('newInterest');
+
+    // Fetch interests from the server
+    const interests = await fetch('/api/interests').then(response => response.json());
+
+    // Populate the dropdown with fetched interests
+    interests.forEach(interest => {
+      const option = document.createElement('option');
+      option.value = interest;
+      option.text = interest;
+      interestDropdown.appendChild(option);
+    });
+
+    // Listen for changes in the new interest input
+    newInterestInput.addEventListener('input', function () {
+      // If the user starts typing in the new interest field, disable the dropdown
+      interestDropdown.disabled = newInterestInput.value.trim() !== '';
+    });
+
+    // Listen for changes in the interest dropdown
+    interestDropdown.addEventListener('change', function () {
+      // If the user selects an existing interest, clear the new interest input
+      newInterestInput.value = '';
+    });
+  });
+
+  async function addInterest() {
+    const interestDropdown = document.getElementById('interest');
+    const newInterestInput = document.getElementById('newInterest');
+    const selectedInterest = interestDropdown.value;
+    const newInterest = newInterestInput.value;
+
+    // Check if the user selected an existing interest or entered a new one
+    const interestToSave = selectedInterest || newInterest;
+
+    // Send the interest data to the server
+    const response = await fetch('/api/interests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ interest: interestToSave }),
+    });
+
+    // Handle the response as needed
+    const updatedInterests = await response.json();
+
+    // Update the dropdown with the latest interests
+    interestDropdown.innerHTML = '';
+    updatedInterests.forEach(interest => {
+      const option = document.createElement('option');
+      option.value = interest;
+      option.text = interest;
+      interestDropdown.appendChild(option);
+    });
+
+    // Clear the new interest input
+    newInterestInput.value = '';
+
+    // Enable the dropdown
+    interestDropdown.disabled = false;
+  }
+</script>
+
+
+
+</body>
+</html>

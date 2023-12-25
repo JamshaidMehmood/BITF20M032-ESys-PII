@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+
+    <!-- DataTables CSS and JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <style>
+   .links {
+      margin: 20px 0;
+    }
+
+    .links a {
+      margin-right: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Student Interest System</h1>
+        <div class="links">
+            <a href="/studentDashboard">Dashboard &nbsp; |&nbsp;</a>
+            <a href="/form">Add Student  &nbsp; |&nbsp;</a>
+
+            <% if (authenticated) { %>
+                <a href="/logout">Logout</a>
+            <% } %>
+        </div>
+    </header>
+
+    <h2>Students</h2>
+
+    <div>
+        <span id="pageNavigator">
+            <button id="goToFirstPage">&lt;&lt;</button>
+            <button id="goToPreviousPage">&lt;</button>
+            <span id="currentPage"></span>|<span id="totalPages"></span>
+            <button id="goToNextPage">></button>
+            <button id="goToLastPage">>></button>
+        </span>
+    </div>
+
+    <!-- Display Student Data in a Table -->
+    <table id="studentTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Department</th>
+                <th>Degree</th>
+                <th>DOB</th>
+                <th>City</th>
+                <th>Interest</th>
+                <% if (user.username === 'admin@gmail.com') { %>
+                    <th>Actions</th>
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% students.forEach(function(student) { %>
+                <tr>
+                    <td><%= student.id %></td>
+                    <td><%= student.fullName %></td>
+                    <td><%= student.rollNumber %></td>
+                    <td><%= student.department %></td>
+                    <td><%= student.degree %></td>
+                    <td><%= student.dob %></td>
+                    <td><%= student.city %></td>
+                    <td><%= student.interest %></td>
+                    <% if (user.username === 'admin@gmail.com') { %>
+                        <td>
+                            <a href="/viewStudent/<%= student._id %>">View</a>
+                            <a href="/editStudent/<%= student._id %>">Edit</a>
+                            <a href="/deleteStudent/<%= student._id %>">Delete</a>
+                        </td>
+                    <% } %>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#studentTable').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "lengthMenu": [5, 10, 20, 30, 50],
+                "ordering": true
+            });
+
+            $('#pageSize').on('change', function () {
+                table.page.len($(this).val()).draw();
+            });
+
+            $('#goToFirstPage').on('click', function () {
+                table.page('first').draw('page');
+            });
+
+            $('#goToPreviousPage').on('click', function () {
+                table.page('previous').draw('page');
+            });
+
+            $('#goToNextPage').on('click', function () {
+                table.page('next').draw('page');
+            });
+
+            $('#goToLastPage').on('click', function () {
+                table.page('last').draw('page');
+            });
+        });
+    </script>
+</body>
+
+</html>

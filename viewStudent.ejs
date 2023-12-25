@@ -1,0 +1,84 @@
+<!-- viewStudent.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .student-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            margin: auto;
+        }
+
+        .details-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .details-label {
+            font-weight: bold;
+            width: 150px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="student-details">
+        <h1>View Student</h1>
+        <div class="details-row">
+            <span class="details-label">Name:</span>
+            <span><%= student.fullName %></span>
+        </div>
+        <div class="details-row">
+            <span class="details-label">Roll Number:</span>
+            <span><%= student.rollNumber %></span>
+        </div>
+        <div class="details-row">
+            <span class="details-label">Department:</span>
+            <span><%= student.department %></span>
+        </div>
+        <div class="details-row">
+            <span class="details-label">Degree:</span>
+            <span><%= student.degree %></span>
+        </div>
+        <div class="details-row">
+            <span class="details-label">Date Of Birth:</span>
+            <span><%= student.dob %></span>
+        </div>
+        <div class="details-row">
+            <span class="details-label">City:</span>
+            <span><%= student.city %></span>
+        </div>
+        <a href="/studentList">Back to Student List</a>
+    </div>
+</body>
+</html>

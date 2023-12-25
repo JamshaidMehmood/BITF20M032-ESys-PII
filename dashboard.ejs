@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+    .links {
+            margin: 20px 0;
+    }
+
+    .links a {
+            margin-right: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+    }
+    </style>
+
+    <!-- Include your CSS and JS libraries, such as Bootstrap, Chart.js, etc. -->
+    <!-- Example using CDN for Bootstrap and Chart.js -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+    <script>
+        // Assuming you've passed the provincialData from your server to the EJS template
+        const pData = <%- JSON.stringify(provincialData) %>;
+        console.log(pData);
+
+        function createProvincialChart() {
+            // Get the canvas element
+            const provincialChartCanvas = document.getElementById('provincialDistributionChart');
+
+            // Create a pie chart
+            const provincialChart = new Chart(provincialChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: pData.map(entry => entry.label),
+                    datasets: [{
+                        data: pData.map(entry => entry.value),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                    }],
+                },
+            });
+        }
+
+        // Trigger the chart creation on page load
+        document.addEventListener('DOMContentLoaded', createProvincialChart);
+    </script>
+
+    <!-- for the line chart  -->
+
+    <script>
+        // Assuming you've passed the submissionChartData from your server to the EJS template
+        const submissionData = <%- JSON.stringify(submissionChartData) %>;
+
+        function createSubmissionChart() {
+            // Get the canvas element
+            const submissionChartCanvas = document.getElementById('submissionChart');
+
+            // Create a line chart for submission data
+            const submissionChart = new Chart(submissionChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: submissionData.map(entry => entry.date),
+                    datasets: [{
+                        label: 'Number of Students Created Daily',
+                        data: submissionData.map(entry => entry.count),
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Students',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // Trigger the chart creation on page load
+        document.addEventListener('DOMContentLoaded', createSubmissionChart);
+    </script>
+    <script>
+        const ageData = <%- JSON.stringify(ageDistributionData) %>;
+
+        function createAgeChart() {
+            // Get the canvas element
+            const ageChartCanvas = document.getElementById('ageDistributionChart');
+
+            // Create a bar chart for age distribution
+            const ageChart = new Chart(ageChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ageData.map(entry => entry.age),
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: ageData.map(entry => entry.count),
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Age',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Students',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // Trigger the chart creation on page load
+        document.addEventListener('DOMContentLoaded', createAgeChart);
+
+    </script>
+    <!-- // script for departmental distribution  -->
+    <script>
+        const departmentData = <%- JSON.stringify(departmentDistribution) %>;
+
+        function createDepartmentChart() {
+            const departmentChartCanvas = document.getElementById('departmentDistributionChart');
+
+            new Chart(departmentChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: departmentData.map(entry => entry.label),
+                    datasets: [{
+                        data: departmentData.map(entry => entry.value),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                    }],
+                },
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createDepartmentChart);
+    </script>
+    <!-- script for degree distribution  -->
+    <script>
+        const degreeData = <%- JSON.stringify(degreeDistribution) %>;
+
+        function createDegreeChart() {
+            const degreeChartCanvas = document.getElementById('degreeDistributionChart');
+
+            new Chart(degreeChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: degreeData.map(entry => entry.label),
+                    datasets: [{
+                        data: degreeData.map(entry => entry.value),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                    }],
+                },
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createDegreeChart);
+    </script>
+
+    <script>
+        const last30DaysActivityData = <%- JSON.stringify(last30DaysActivity) %>;
+
+        function createLast30DaysActivityChart() {
+            const last30DaysActivityChartCanvas = document.getElementById('last30DaysActivityChart');
+
+            new Chart(last30DaysActivityChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: last30DaysActivityData.map(entry => entry.date),
+                    datasets: [{
+                        label: 'Number of Actions Performed Daily',
+                        data: last30DaysActivityData.map(entry => entry.count),
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Actions',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createLast30DaysActivityChart);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Assuming you've passed the last24HoursActivity from your server to the EJS template
+            const last24HoursActivityData = <%- JSON.stringify(last24HoursActivity) %>;
+
+            // Get the canvas element
+            const last24HoursActivityChartCanvas = document.getElementById('last24HoursActivityChart');
+
+            // Create a line chart for last 24 hours activity data
+            const last24HoursActivityChart = new Chart(last24HoursActivityChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: last24HoursActivityData.map(entry => entry.date),
+                    datasets: [{
+                        label: 'Number of Actions Every 15 Minutes',
+                        data: last24HoursActivityData.map(entry => entry.count),
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute',
+                                stepSize: 15, // Set the step size to 15 minutes
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Actions',
+                            },
+                        },
+                    },
+                },
+            });
+        });
+    </script>
+
+
+    <script>
+        const studentsStatusGrid1 = <%- JSON.stringify(studentsStatusGrid) %>;
+        console.log(studentsStatusGrid1);
+        function createStudentsStatusGrid() {
+            // Assuming studentsStatusGrid1 is in the format { Graduated: 35, Currently Studying: 3 }
+            const { Graduated, 'Currently Studying': CurrentlyStudying, 'Recently Enrolled': RecentlyEnrolled, 'About to Graduate': AboutToGraduate } = studentsStatusGrid1;
+
+            document.getElementById('currentlyStudyingCount').innerText = CurrentlyStudying || 0;
+            document.getElementById('recentlyEnrolledCount').innerText = RecentlyEnrolled || 0;
+            document.getElementById('aboutToGraduateCount').innerText = AboutToGraduate || 0;
+            document.getElementById('graduatedCount').innerText = Graduated || 0;
+        }
+
+        document.addEventListener('DOMContentLoaded', createStudentsStatusGrid);
+    </script>
+    <script>
+        const mostActiveHoursData = <%- JSON.stringify(mostActiveHours) %>;
+
+        function createMostActiveHoursChart() {
+            const mostActiveHoursChartCanvas = document.getElementById('mostActiveHoursChart');
+
+            new Chart(mostActiveHoursChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: mostActiveHoursData.map(entry => entry.hour),
+                    datasets: [{
+                        label: 'Number of Actions',
+                        data: mostActiveHoursData.map(entry => entry.count),
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hour',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Actions',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createMostActiveHoursChart);
+    </script>
+
+    <script>
+        // Assuming you've passed the leastActiveHoursData from your server to the EJS template
+        const leastActiveHoursData = <%- JSON.stringify(leastActiveHours) %>;
+
+        function createLeastActiveHoursChart() {
+            // Get the canvas element
+            const leastActiveHoursChartCanvas = document.getElementById('leastActiveHoursChart');
+
+            // Create a bar chart for least active hours
+            const leastActiveHoursChart = new Chart(leastActiveHoursChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: leastActiveHoursData.map(entry => entry.hour),
+                    datasets: [{
+                        label: 'Number of Actions',
+                        data: leastActiveHoursData.map(entry => entry.count),
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hour',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Actions',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // Trigger the chart creation on page load
+        document.addEventListener('DOMContentLoaded', createLeastActiveHoursChart);
+    </script>
+
+    <script>
+        // Assuming you've passed the deadHoursData from your server to the EJS template
+        const deadHoursData = <%- JSON.stringify(deadHours) %>;
+
+        function createDeadHoursChart() {
+            // Get the canvas element
+            const deadHoursChartCanvas = document.getElementById('deadHoursChart');
+
+            // Create a bar chart for dead hours
+            const deadHoursChart = new Chart(deadHoursChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: deadHoursData.map(entry => entry.hour),
+                    datasets: [{
+                        label: 'Number of Actions',
+                        data: deadHoursData.map(entry => entry.count),
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hour',
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Actions',
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // Trigger the chart creation on page load
+        document.addEventListener('DOMContentLoaded', createDeadHoursChart);
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <div class="container mt-4">
+
+        <header>
+            <h1>Student Interest System</h1>
+            <div class="links">
+                <a href="/studentList">Student List &nbsp; |&nbsp;</a>
+                <a href="/form">Add Student  &nbsp; |&nbsp;
+                </a>                
+                <% if (authenticated) { %>
+                    <a href="/logout">Logout</a>
+                <% } %>
+            </div>
+        </header>
+        <br>
+        <h2>Dashboard</h2>
+        <!-- Top 5 interests -->
+        <div class="row">
+            <% topInterests.forEach((interest)=> { %>
+                <div class="col-md-2 col-sm-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <%= interest %>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+        <!-- Bottom 5 interests -->
+        <div class="row mt-4">
+            <% bottomInterests.forEach((interest)=> { %>
+                <div class="col-md-2 col-sm-3">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <%= interest %>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+        <!-- Distinct interests -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Distinct interests</h5>
+                        <p class="card-text">Number of interests in the system: <%= distinctInterestsCount %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Left side: Provincial distribution chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Provincial distribution</h5>
+                        <canvas id="provincialDistributionChart" width="100" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side: Submission chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Submission Chart (Last 30 Days)</h5>
+                        <canvas id="submissionChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        Age distribution chart
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Age Distribution</h5>
+                        <canvas id="ageDistributionChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- for departmental distrubution -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Department distribution</h5>
+                        <canvas id="departmentDistributionChart" width="150" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Degree distribution</h5>
+                        <canvas id="degreeDistributionChart" width="150" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Last 30 Days Activity</h5>
+                        <canvas id="last30DaysActivityChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Last 24 hours activity chart -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Last 24 Hours Activity</h5>
+                        <canvas id="last24HoursActivityChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Students Status Grid -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Students Status Grid</h5>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Number of Students</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Currently Studying</td>
+                                    <td id="currentlyStudyingCount">Loading...</td>
+                                </tr>
+                                <tr>
+                                    <td>Recently Enrolled</td>
+                                    <td id="recentlyEnrolledCount">Loading...</td>
+                                </tr>
+                                <tr>
+                                    <td>About to Graduate</td>
+                                    <td id="aboutToGraduateCount">Loading...</td>
+                                </tr>
+                                <tr>
+                                    <td>Graduated</td>
+                                    <td id="graduatedCount">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display the most active hours chart -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Most Active Hours (Last 30 Days)</h5>
+                        <canvas id="mostActiveHoursChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Least Active Hours (Last 30 Days)</h5>
+                        <canvas id="leastActiveHoursChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dead Hours (Next to Zero Activity)</h5>
+                        <canvas id="deadHoursChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
